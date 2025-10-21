@@ -32,7 +32,7 @@ func TestDates(t *testing.T) {
 		{"Year", func(f *Fake) int { return f.Year(1950, 2020) }, 1950, 2020},
 	}
 
-	for _, lang := range GetLangs() {
+	for _, lang := range GetLangs("") {
 		for _, tc := range stringTests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()

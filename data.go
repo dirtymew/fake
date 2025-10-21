@@ -9,10 +9,10 @@ import (
 //go:embed data/**
 var embeddedData embed.FS
 
-// FS returns a filesystem rooted at `data`. If useExternal is true it returns
-// the OS dir filesystem so external files under `data/` are used.
-func FS(useExternal bool) fs.FS {
-	if useExternal {
+// FS returns a filesystem rooted at `data`.
+// the OS dir filesystem so external files under `path` are used.
+func FS(path string) fs.FS {
+	if path != "" {
 		return os.DirFS("data")
 	}
 	sub, err := fs.Sub(embeddedData, "data")
