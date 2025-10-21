@@ -2,7 +2,7 @@ package fake
 
 // Day generates day of the month
 func (f *Fake) Day() int {
-	return f.r.Intn(31) + 1
+	return f.rand.Intn(31) + 1
 }
 
 // WeekDay generates name ot the week day
@@ -17,7 +17,7 @@ func (f *Fake) WeekDayShort() string {
 
 // WeekdayNum generates number of the day of the week
 func (f *Fake) WeekdayNum() int {
-	return f.r.Intn(7) + 1
+	return f.rand.Intn(7) + 1
 }
 
 // Month generates month name
@@ -32,11 +32,11 @@ func (f *Fake) MonthShort() string {
 
 // MonthNum generates month number (from 1 to 12)
 func (f *Fake) MonthNum() int {
-	return f.r.Intn(12) + 1
+	return f.rand.Intn(12) + 1
 }
 
 // Year generates year using the given boundaries
 func (f *Fake) Year(from, to int) int {
-	n := f.r.Intn(to-from) + 1
+	n := f.rand.Intn(to-from) + 1
 	return from + n
 }

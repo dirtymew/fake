@@ -17,7 +17,7 @@ const (
 )
 
 type Fake struct {
-	r            *rand.Rand
+	rand         *rand.Rand
 	samplesCache samplesTree
 	lang         string
 	langs        []string
@@ -26,7 +26,7 @@ type Fake struct {
 
 func New() *Fake {
 	return &Fake{
-		r:            rand.New(rand.NewSource(time.Now().UnixNano())),
+		rand:         rand.New(rand.NewSource(time.Now().UTC().UnixNano())),
 		samplesCache: make(samplesTree),
 		langs:        GetLangs(),
 	}
@@ -45,10 +45,10 @@ var (
 // deterministic state.
 func (f *Fake) Seed(seed int64) {
 	if seed == 0 { // 0 unset to random seed
-		f.r = rand.New(rand.NewSource(time.Now().UnixNano()))
+		f.rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 		return
 	}
-	f.r.Seed(seed)
+	f.rand.Seed(seed)
 }
 
 // GetLangs returns a slice of available languages from the embedded data FS.
@@ -115,7 +115,7 @@ func (f *Fake) generate(lang, cat string, fallback bool) string {
 		if ru != '#' {
 			result += string(ru)
 		} else {
-			result += strconv.Itoa(f.r.Intn(10))
+			result += strconv.Itoa(f.rand.Intn(10))
 		}
 	}
 	return result
@@ -137,7 +137,7 @@ func (f *Fake) lookup(lang string, cat string, fallback bool) string {
 		}
 	}
 
-	return samples[f.r.Intn(len(samples))]
+	return samples[f.rand.Intn(len(samples))]
 }
 
 func (f *Fake) populateSamples(lang, cat string) ([]string, error) {
