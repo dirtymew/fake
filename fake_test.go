@@ -65,3 +65,12 @@ func TestConcurrentSafety(t *testing.T) {
 		<-doneChan
 	}
 }
+
+func BenchmarkNewFastFaker_Parallel(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		fk := New()
+		for pb.Next() {
+			fk.UserName()
+		}
+	})
+}

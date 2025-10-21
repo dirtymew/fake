@@ -1,7 +1,12 @@
-module github.com/icrowley/fake
+module github.com/dirtymew/fake
 
-go 1.17
+go 1.24.9
 
-require github.com/corpix/uarand v0.0.0-20170723150923-031be390f409
+require github.com/corpix/uarand v0.2.0
 
-require github.com/stretchr/testify v1.7.5 // indirect
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/testify v1.11.1
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)

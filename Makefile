@@ -1,7 +1,7 @@
 .DEFAULT_GOAL = all
 
 name     := fake
-package  := github.com/icrowley/$(name)
+package  := github.com/dirtymew/$(name)
 
 .PHONY: all
 all:
