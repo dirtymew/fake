@@ -23,7 +23,6 @@ func TestInternet(t *testing.T) {
 		{"DomainZone", func(f *Fake) string { return f.DomainZone() }, func(lang string) bool { return true }},
 		{"IPv4", func(f *Fake) string { return f.IPv4() }, func(lang string) bool { return true }},
 		{"IPv6", func(f *Fake) string { return f.IPv6() }, func(lang string) bool { return true }},
-		{"UserAgent", func(f *Fake) string { return f.UserAgent() }, func(lang string) bool { return true }},
 	}
 
 	for _, lang := range GetLangs("") {

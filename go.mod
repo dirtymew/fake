@@ -2,8 +2,6 @@ module github.com/dirtymew/fake
 
 go 1.24.9
 
-require github.com/corpix/uarand v0.2.0
-
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
