@@ -23,7 +23,7 @@ func TestGeneral(t *testing.T) {
 		{"Digits", func(f *Fake) string { return f.Digits() }, func(lang string) bool { return true }},
 	}
 
-	for _, lang := range GetLangs() {
+	for _, lang := range GetLangs("") {
 		for _, tc := range tests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()

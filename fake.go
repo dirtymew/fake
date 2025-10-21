@@ -17,18 +17,19 @@ const (
 )
 
 type Fake struct {
-	rand         *rand.Rand
-	samplesCache samplesTree
-	lang         string
-	langs        []string
-	enFallback   bool
+	rand             *rand.Rand
+	samplesCache     samplesTree
+	lang             string
+	langs            []string
+	enFallback       bool
+	externalDataPath string
 }
 
 func New() *Fake {
 	return &Fake{
 		rand:         rand.New(rand.NewSource(time.Now().UTC().UnixNano())),
 		samplesCache: make(samplesTree),
-		langs:        GetLangs(),
+		langs:        GetLangs(""),
 	}
 }
 
@@ -52,9 +53,9 @@ func (f *Fake) Seed(seed int64) {
 }
 
 // GetLangs returns a slice of available languages from the embedded data FS.
-func GetLangs() []string {
+func GetLangs(path string) []string {
 	var langs []string
-	fsys := FS(false) // embedded FS
+	fsys := FS(path)
 	entries, err := fs.ReadDir(fsys, ".")
 	if err != nil {
 		return langs
@@ -156,9 +157,14 @@ func (f *Fake) populateSamples(lang, cat string) ([]string, error) {
 	return samples, nil
 }
 
+func (f *Fake) UseExternalData(path string) {
+	f.externalDataPath = path
+	f.langs = GetLangs(path)
+}
+
 func (f *Fake) readFile(lang, cat string) ([]byte, error) {
 	fullpath := path.Join(lang, cat) // no leading slash
-	file, err := FS(false).Open(fullpath)
+	file, err := FS(f.externalDataPath).Open(fullpath)
 	if err != nil {
 		return nil, ErrNoSamplesFn(lang)
 	}
