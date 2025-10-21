@@ -3,8 +3,6 @@ package fake
 import (
 	"net"
 	"strings"
-
-	"github.com/corpix/uarand"
 )
 
 // UserName generates user name in one of the following forms
@@ -69,9 +67,4 @@ func (f *Fake) IPv6() string {
 		ip[i] = byte(f.rand.Intn(256))
 	}
 	return net.IP(ip).To16().String()
-}
-
-// UserAgent generates a random user agent.
-func (f *Fake) UserAgent() string {
-	return uarand.GetRandom()
 }
