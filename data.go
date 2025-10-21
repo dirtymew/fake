@@ -13,7 +13,7 @@ var embeddedData embed.FS
 // the OS dir filesystem so external files under `path` are used.
 func FS(path string) fs.FS {
 	if path != "" {
-		return os.DirFS("data")
+		return os.DirFS(path)
 	}
 	sub, err := fs.Sub(embeddedData, "data")
 	if err != nil {
