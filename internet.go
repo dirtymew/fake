@@ -17,7 +17,7 @@ func (f *Fake) UserName() string {
 	case 1:
 		return f.Character() + f.lookup(f.lang, gender+"_last_names", false)
 	default:
-		return strings.Replace(f.WordsN(f.r.Intn(3)+1), " ", "_", -1)
+		return strings.ReplaceAll(f.WordsN(f.r.Intn(3)+1), " ", "_")
 	}
 }
 

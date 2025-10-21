@@ -2,15 +2,14 @@ package fake
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
+	"io/fs"
 	"math/rand"
+	"path"
 	"strconv"
 	"strings"
 	"time"
 )
-
-//go:generate go get github.com/mjibson/esc
-//go:generate esc -o data.go -pkg fake data
 
 const (
 	LangEnglish = "en"
@@ -18,12 +17,11 @@ const (
 )
 
 type Fake struct {
-	r               *rand.Rand
-	samplesCache    samplesTree
-	lang            string
-	langs           []string
-	useExternalData bool
-	enFallback      bool
+	r            *rand.Rand
+	samplesCache samplesTree
+	lang         string
+	langs        []string
+	enFallback   bool
 }
 
 func New() *Fake {
@@ -38,9 +36,9 @@ type samplesTree map[string]map[string][]string
 
 var (
 	// ErrNoLanguageFn is the error that indicates that given language is not available
-	ErrNoLanguageFn = func(lang string) error { return fmt.Errorf("The language passed (%s) is not available", lang) }
+	ErrNoLanguageFn = func(lang string) error { return fmt.Errorf("language passed (%s) is not available", lang) }
 	// ErrNoSamplesFn is the error that indicates that there are no samples for the given language
-	ErrNoSamplesFn = func(lang string) error { return fmt.Errorf("No samples found for language: %s", lang) }
+	ErrNoSamplesFn = func(lang string) error { return fmt.Errorf("no samples found for language: %s", lang) }
 )
 
 // Seed uses the provided seed value to initialize the internal PRNG to a
@@ -53,12 +51,17 @@ func (f *Fake) Seed(seed int64) {
 	f.r.Seed(seed)
 }
 
-// GetLangs returns a slice of available languages
+// GetLangs returns a slice of available languages from the embedded data FS.
 func GetLangs() []string {
 	var langs []string
-	for k, v := range _escData {
-		if v.isDir && k != "/" && k != "/data" {
-			langs = append(langs, strings.Replace(k, "/data/", "", 1))
+	fsys := FS(false) // embedded FS
+	entries, err := fs.ReadDir(fsys, ".")
+	if err != nil {
+		return langs
+	}
+	for _, e := range entries {
+		if e.IsDir() {
+			langs = append(langs, e.Name())
 		}
 	}
 	return langs
@@ -79,11 +82,6 @@ func (f *Fake) SetLang(newLang string) error {
 	}
 	f.lang = newLang
 	return nil
-}
-
-// UseExternalData sets the flag that allows using of external files as data providers (fake uses embedded ones by default)
-func (f *Fake) UseExternalData(flag bool) {
-	f.useExternalData = flag
 }
 
 // EnFallback sets the flag that allows fake to fallback to englsh samples if the ones for the used languaged are not available
@@ -159,12 +157,14 @@ func (f *Fake) populateSamples(lang, cat string) ([]string, error) {
 }
 
 func (f *Fake) readFile(lang, cat string) ([]byte, error) {
-	fullpath := fmt.Sprintf("/data/%s/%s", lang, cat)
-	file, err := FS(f.useExternalData).Open(fullpath)
+	fullpath := path.Join(lang, cat) // no leading slash
+	file, err := FS(false).Open(fullpath)
 	if err != nil {
 		return nil, ErrNoSamplesFn(lang)
 	}
-	defer file.Close()
+	defer func() {
+		_ = file.Close()
+	}()
 
-	return ioutil.ReadAll(file)
+	return io.ReadAll(file)
 }

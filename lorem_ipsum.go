@@ -55,7 +55,7 @@ func (f *Fake) Sentence() string {
 		if f.r.Intn(5) == 0 {
 			word += ","
 		}
-		words = append(words, f.Word())
+		words = append(words, word)
 	}
 
 	sentence := strings.Join(words, " ")
