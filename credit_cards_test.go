@@ -1,27 +1,36 @@
 package fake
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCreditCards(t *testing.T) {
+	tests := []struct {
+		name        string
+		fn          func(*Fake) string
+		requiredFor func(lang string) bool
+	}{
+		{"CreditCardType", func(f *Fake) string { return f.CreditCardType() }, func(lang string) bool { return true }},
+		{"CreditCardNumEmptyVendor", func(f *Fake) string { return f.CreditCardNum("") }, func(lang string) bool { return true }},
+		{"CreditCardNumVisa", func(f *Fake) string { return f.CreditCardNum("visa") }, func(lang string) bool { return true }},
+	}
+
 	for _, lang := range GetLangs() {
-		f := New()
-		_ = f.SetLang(lang)
+		for _, tc := range tests {
+			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
+				t.Parallel()
+				f := New()
+				require.NoError(t, f.SetLang(lang))
 
-		v := f.CreditCardType()
-		if v == "" {
-			t.Errorf("CreditCardType failed with lang %s", lang)
-		}
-
-		v = f.CreditCardNum("")
-		if v == "" {
-			t.Errorf("CreditCardNum failed with lang %s", lang)
-		}
-
-		v = f.CreditCardNum("visa")
-		if v == "" {
-			t.Errorf("CreditCardNum failed with lang %s", lang)
+				v := tc.fn(f)
+				if tc.requiredFor != nil && tc.requiredFor(lang) {
+					assert.NotEmpty(t, v, "%s failed with lang %s", tc.name, lang)
+				}
+			})
 		}
 	}
 }

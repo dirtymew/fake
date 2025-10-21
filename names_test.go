@@ -1,102 +1,51 @@
 package fake
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNames(t *testing.T) {
+	tests := []struct {
+		name        string
+		fn          func(*Fake) string
+		requiredFor func(lang string) bool
+	}{
+		{"MaleFirstName", func(f *Fake) string { return f.MaleFirstName() }, func(lang string) bool { return true }},
+		{"FemaleFirstName", func(f *Fake) string { return f.FemaleFirstName() }, func(lang string) bool { return true }},
+		{"FirstName", func(f *Fake) string { return f.FirstName() }, func(lang string) bool { return true }},
+		{"MaleLastName", func(f *Fake) string { return f.MaleLastName() }, func(lang string) bool { return true }},
+		{"FemaleLastName", func(f *Fake) string { return f.FemaleLastName() }, func(lang string) bool { return true }},
+		{"LastName", func(f *Fake) string { return f.LastName() }, func(lang string) bool { return true }},
+		{"MalePatronymic", func(f *Fake) string { return f.MalePatronymic() }, func(lang string) bool { return true }},
+		{"FemalePatronymic", func(f *Fake) string { return f.FemalePatronymic() }, func(lang string) bool { return true }},
+		{"Patronymic", func(f *Fake) string { return f.Patronymic() }, func(lang string) bool { return true }},
+		{"MaleFullNameWithPrefix", func(f *Fake) string { return f.MaleFullNameWithPrefix() }, func(lang string) bool { return true }},
+		{"FemaleFullNameWithPrefix", func(f *Fake) string { return f.FemaleFullNameWithPrefix() }, func(lang string) bool { return true }},
+		{"FullNameWithPrefix", func(f *Fake) string { return f.FullNameWithPrefix() }, func(lang string) bool { return true }},
+		{"MaleFullNameWithSuffix", func(f *Fake) string { return f.MaleFullNameWithSuffix() }, func(lang string) bool { return true }},
+		{"FemaleFullNameWithSuffix", func(f *Fake) string { return f.FemaleFullNameWithSuffix() }, func(lang string) bool { return true }},
+		{"FullNameWithSuffix", func(f *Fake) string { return f.FullNameWithSuffix() }, func(lang string) bool { return true }},
+		{"MaleFullName", func(f *Fake) string { return f.MaleFullName() }, func(lang string) bool { return true }},
+		{"FemaleFullName", func(f *Fake) string { return f.FemaleFullName() }, func(lang string) bool { return true }},
+		{"FullName", func(f *Fake) string { return f.FullName() }, func(lang string) bool { return true }},
+	}
+
 	for _, lang := range GetLangs() {
-		f := New()
-		_ = f.SetLang(lang)
+		for _, tc := range tests {
+			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
+				t.Parallel()
+				f := New()
+				require.NoError(t, f.SetLang(lang))
 
-		v := f.MaleFirstName()
-		if v == "" {
-			t.Errorf("MaleFirstName failed with lang %s", lang)
-		}
-
-		v = f.FemaleFirstName()
-		if v == "" {
-			t.Errorf("FemaleFirstName failed with lang %s", lang)
-		}
-
-		v = f.FirstName()
-		if v == "" {
-			t.Errorf("FirstName failed with lang %s", lang)
-		}
-
-		v = f.MaleLastName()
-		if v == "" {
-			t.Errorf("MaleLastName failed with lang %s", lang)
-		}
-
-		v = f.FemaleLastName()
-		if v == "" {
-			t.Errorf("FemaleLastName failed with lang %s", lang)
-		}
-
-		v = f.LastName()
-		if v == "" {
-			t.Errorf("LastName failed with lang %s", lang)
-		}
-
-		v = f.MalePatronymic()
-		if v == "" {
-			t.Errorf("MalePatronymic failed with lang %s", lang)
-		}
-
-		v = f.FemalePatronymic()
-		if v == "" {
-			t.Errorf("FemalePatronymic failed with lang %s", lang)
-		}
-
-		v = f.Patronymic()
-		if v == "" {
-			t.Errorf("Patronymic failed with lang %s", lang)
-		}
-
-		v = f.MaleFullNameWithPrefix()
-		if v == "" {
-			t.Errorf("MaleFullNameWithPrefix failed with lang %s", lang)
-		}
-
-		v = f.FemaleFullNameWithPrefix()
-		if v == "" {
-			t.Errorf("FemaleFullNameWithPrefix failed with lang %s", lang)
-		}
-
-		v = f.FullNameWithPrefix()
-		if v == "" {
-			t.Errorf("FullNameWithPrefix failed with lang %s", lang)
-		}
-
-		v = f.MaleFullNameWithSuffix()
-		if v == "" {
-			t.Errorf("MaleFullNameWithSuffix failed with lang %s", lang)
-		}
-
-		v = f.FemaleFullNameWithSuffix()
-		if v == "" {
-			t.Errorf("FemaleFullNameWithSuffix failed with lang %s", lang)
-		}
-
-		v = f.FullNameWithSuffix()
-		if v == "" {
-			t.Errorf("FullNameWithSuffix failed with lang %s", lang)
-		}
-
-		v = f.MaleFullName()
-		if v == "" {
-			t.Errorf("MaleFullName failed with lang %s", lang)
-		}
-
-		v = f.FemaleFullName()
-		if v == "" {
-			t.Errorf("FemaleFullName failed with lang %s", lang)
-		}
-
-		v = f.FullName()
-		if v == "" {
-			t.Errorf("FullName failed with lang %s", lang)
+				v := tc.fn(f)
+				if tc.requiredFor != nil && tc.requiredFor(lang) {
+					assert.NotEmpty(t, v, "%s failed with lang %s", tc.name, lang)
+				}
+			})
 		}
 	}
 }
