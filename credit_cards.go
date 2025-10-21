@@ -13,9 +13,9 @@ type creditCard struct {
 	prefixes []int
 }
 
-func (c creditCard) RandomPrefix() int {
-	return c.prefixes[r.Intn(len(c.prefixes))]
-}
+// func (c creditCard) RandomPrefix() int {
+// 	return c.prefixes[f.r.Intn(len(c.prefixes))]
+// }
 
 var (
 	creditCards = map[string]creditCard{
@@ -38,32 +38,32 @@ func init() {
 
 // CreditCardType returns one of the following credit values:
 // VISA, MasterCard, American Express and Discover
-func CreditCardType() string {
+func (f *Fake) CreditCardType() string {
 	n := len(creditCards)
 	var vendors []string
 	for _, cc := range creditCards {
 		vendors = append(vendors, cc.vendor)
 	}
 
-	return vendors[r.Intn(n)]
+	return vendors[f.r.Intn(n)]
 }
 
 // CreditCardNum generated credit card number according to the card number rules
-func CreditCardNum(vendor string) string {
+func (f *Fake) CreditCardNum(vendor string) string {
 	if vendor != "" {
 		vendor = strings.ToLower(vendor)
 	} else {
-		vendor = creditCardsKeys[r.Intn(len(creditCardsKeys))]
+		vendor = creditCardsKeys[f.r.Intn(len(creditCardsKeys))]
 	}
 	card, ok := creditCards[vendor]
 	if !ok {
 		panic(fmt.Sprintf("unsupported vendor %q", vendor))
 	}
 
-	prefix := strconv.Itoa(card.RandomPrefix())
+	prefix := strconv.Itoa(card.prefixes[f.r.Intn(len(card.prefixes))])
 	num := []rune(prefix)
 	for i := 0; i < card.length-len(prefix)-1; i++ {
-		num = append(num, rune(strconv.Itoa(r.Intn(10))[0]))
+		num = append(num, rune(strconv.Itoa(f.r.Intn(10))[0]))
 	}
 	num = append(num, creditCardNumChecksum(num))
 

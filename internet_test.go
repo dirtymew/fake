@@ -6,54 +6,56 @@ import (
 
 func TestInternet(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
+		f.EnFallback(true)
 
-		v := UserName()
+		v := f.UserName()
 		if v == "" {
 			t.Errorf("UserName failed with lang %s", lang)
 		}
 
-		v = TopLevelDomain()
+		v = f.TopLevelDomain()
 		if v == "" {
 			t.Errorf("TopLevelDomain failed with lang %s", lang)
 		}
 
-		v = DomainName()
+		v = f.DomainName()
 		if v == "" {
 			t.Errorf("DomainName failed with lang %s", lang)
 		}
 
-		v = EmailAddress()
+		v = f.EmailAddress()
 		if v == "" {
 			t.Errorf("EmailAddress failed with lang %s", lang)
 		}
 
-		v = EmailSubject()
+		v = f.EmailSubject()
 		if v == "" {
 			t.Errorf("EmailSubject failed with lang %s", lang)
 		}
 
-		v = EmailBody()
+		v = f.EmailBody()
 		if v == "" {
 			t.Errorf("EmailBody failed with lang %s", lang)
 		}
 
-		v = DomainZone()
+		v = f.DomainZone()
 		if v == "" {
 			t.Errorf("DomainZone failed with lang %s", lang)
 		}
 
-		v = IPv4()
+		v = f.IPv4()
 		if v == "" {
 			t.Errorf("IPv4 failed with lang %s", lang)
 		}
 
-		v = UserAgent()
+		v = f.UserAgent()
 		if v == "" {
 			t.Errorf("UserAgent failed with lang %s", lang)
 		}
 
-		v = IPv6()
+		v = f.IPv6()
 		if v == "" {
 			t.Errorf("IPv6 failed with lang %s", lang)
 		}

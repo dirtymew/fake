@@ -6,19 +6,20 @@ import (
 
 func TestPersonal(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
 
-		v := Gender()
+		v := f.Gender()
 		if v == "" {
 			t.Errorf("Gender failed with lang %s", lang)
 		}
 
-		v = GenderAbbrev()
+		v = f.GenderAbbrev()
 		if v == "" {
 			t.Errorf("GenderAbbrev failed with lang %s", lang)
 		}
 
-		v = Language()
+		v = f.Language()
 		if v == "" {
 			t.Errorf("Language failed with lang %s", lang)
 		}

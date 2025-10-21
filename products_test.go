@@ -6,24 +6,26 @@ import (
 
 func TestProducts(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
+		f.EnFallback(true)
 
-		v := Brand()
+		v := f.Brand()
 		if v == "" {
 			t.Errorf("Brand failed with lang %s", lang)
 		}
 
-		v = ProductName()
+		v = f.ProductName()
 		if v == "" {
 			t.Errorf("ProductName failed with lang %s", lang)
 		}
 
-		v = Product()
+		v = f.Product()
 		if v == "" {
 			t.Errorf("Product failed with lang %s", lang)
 		}
 
-		v = Model()
+		v = f.Model()
 		if v == "" {
 			t.Errorf("Model failed with lang %s", lang)
 		}
