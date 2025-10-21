@@ -6,19 +6,20 @@ import (
 
 func TestCreditCards(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
 
-		v := CreditCardType()
+		v := f.CreditCardType()
 		if v == "" {
 			t.Errorf("CreditCardType failed with lang %s", lang)
 		}
 
-		v = CreditCardNum("")
+		v = f.CreditCardNum("")
 		if v == "" {
 			t.Errorf("CreditCardNum failed with lang %s", lang)
 		}
 
-		v = CreditCardNum("visa")
+		v = f.CreditCardNum("visa")
 		if v == "" {
 			t.Errorf("CreditCardNum failed with lang %s", lang)
 		}

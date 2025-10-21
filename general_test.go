@@ -6,39 +6,40 @@ import (
 
 func TestGeneral(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
 
-		v := Password(4, 10, true, true, true)
+		v := f.Password(4, 10, true, true, true)
 		if v == "" {
 			t.Errorf("Password failed with lang %s", lang)
 		}
 
-		v = SimplePassword()
+		v = f.SimplePassword()
 		if v == "" {
 			t.Errorf("SimplePassword failed with lang %s", lang)
 		}
 
-		v = Color()
+		v = f.Color()
 		if v == "" {
 			t.Errorf("Color failed with lang %s", lang)
 		}
 
-		v = HexColor()
+		v = f.HexColor()
 		if v == "" {
 			t.Errorf("HexColor failed with lang %s", lang)
 		}
 
-		v = HexColorShort()
+		v = f.HexColorShort()
 		if v == "" {
 			t.Errorf("HexColorShort failed with lang %s", lang)
 		}
 
-		v = DigitsN(2)
+		v = f.DigitsN(2)
 		if v == "" {
 			t.Errorf("DigitsN failed with lang %s", lang)
 		}
 
-		v = Digits()
+		v = f.Digits()
 		if v == "" {
 			t.Errorf("Digits failed with lang %s", lang)
 		}

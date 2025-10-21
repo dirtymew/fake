@@ -6,49 +6,50 @@ import (
 
 func TestAddresses(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
 
-		v := Continent()
+		v := f.Continent()
 		if v == "" {
 			t.Errorf("Continent failed with lang %s", lang)
 		}
 
-		v = Country()
+		v = f.Country()
 		if v == "" {
 			t.Errorf("Country failed with lang %s", lang)
 		}
 
-		v = City()
+		v = f.City()
 		if v == "" {
 			t.Errorf("City failed with lang %s", lang)
 		}
 
-		v = State()
+		v = f.State()
 		if v == "" {
 			t.Errorf("State failed with lang %s", lang)
 		}
 
-		v = StateAbbrev()
-		if v == "" && lang == "en" {
+		v = f.StateAbbrev()
+		if v == "" && lang == LangEnglish {
 			t.Errorf("StateAbbrev failed with lang %s", lang)
 		}
 
-		v = Street()
+		v = f.Street()
 		if v == "" {
 			t.Errorf("Street failed with lang %s", lang)
 		}
 
-		v = StreetAddress()
+		v = f.StreetAddress()
 		if v == "" {
 			t.Errorf("StreetAddress failed with lang %s", lang)
 		}
 
-		v = Zip()
+		v = f.Zip()
 		if v == "" {
 			t.Errorf("Zip failed with lang %s", lang)
 		}
 
-		v = Phone()
+		v = f.Phone()
 		if v == "" {
 			t.Errorf("Phone failed with lang %s", lang)
 		}

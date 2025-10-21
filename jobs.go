@@ -5,21 +5,21 @@ import (
 )
 
 // Company generates company name
-func Company() string {
-	return lookup(lang, "companies", true)
+func (f *Fake) Company() string {
+	return f.lookup(f.lang, "companies", true)
 }
 
 // JobTitle generates job title
-func JobTitle() string {
-	job := lookup(lang, "jobs", true)
-	return strings.Replace(job, "#{N}", jobTitleSuffix(), 1)
+func (f *Fake) JobTitle() string {
+	job := f.lookup(f.lang, "jobs", true)
+	return strings.Replace(job, "#{N}", f.jobTitleSuffix(), 1)
 }
 
-func jobTitleSuffix() string {
-	return lookup(lang, "jobs_suffixes", false)
+func (f *Fake) jobTitleSuffix() string {
+	return f.lookup(f.lang, "jobs_suffixes", false)
 }
 
 // Industry generates industry name
-func Industry() string {
-	return lookup(lang, "industries", true)
+func (f *Fake) Industry() string {
+	return f.lookup(f.lang, "industries", true)
 }

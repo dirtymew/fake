@@ -6,14 +6,16 @@ import (
 
 func TestCurrencies(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
+		f.EnFallback(true)
 
-		v := Currency()
+		v := f.Currency()
 		if v == "" {
 			t.Errorf("Currency failed with lang %s", lang)
 		}
 
-		v = CurrencyCode()
+		v = f.CurrencyCode()
 		if v == "" {
 			t.Errorf("CurrencyCode failed with lang %s", lang)
 		}

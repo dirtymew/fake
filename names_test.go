@@ -6,94 +6,95 @@ import (
 
 func TestNames(t *testing.T) {
 	for _, lang := range GetLangs() {
-		SetLang(lang)
+		f := New()
+		_ = f.SetLang(lang)
 
-		v := MaleFirstName()
+		v := f.MaleFirstName()
 		if v == "" {
 			t.Errorf("MaleFirstName failed with lang %s", lang)
 		}
 
-		v = FemaleFirstName()
+		v = f.FemaleFirstName()
 		if v == "" {
 			t.Errorf("FemaleFirstName failed with lang %s", lang)
 		}
 
-		v = FirstName()
+		v = f.FirstName()
 		if v == "" {
 			t.Errorf("FirstName failed with lang %s", lang)
 		}
 
-		v = MaleLastName()
+		v = f.MaleLastName()
 		if v == "" {
 			t.Errorf("MaleLastName failed with lang %s", lang)
 		}
 
-		v = FemaleLastName()
+		v = f.FemaleLastName()
 		if v == "" {
 			t.Errorf("FemaleLastName failed with lang %s", lang)
 		}
 
-		v = LastName()
+		v = f.LastName()
 		if v == "" {
 			t.Errorf("LastName failed with lang %s", lang)
 		}
 
-		v = MalePatronymic()
+		v = f.MalePatronymic()
 		if v == "" {
 			t.Errorf("MalePatronymic failed with lang %s", lang)
 		}
 
-		v = FemalePatronymic()
+		v = f.FemalePatronymic()
 		if v == "" {
 			t.Errorf("FemalePatronymic failed with lang %s", lang)
 		}
 
-		v = Patronymic()
+		v = f.Patronymic()
 		if v == "" {
 			t.Errorf("Patronymic failed with lang %s", lang)
 		}
 
-		v = MaleFullNameWithPrefix()
+		v = f.MaleFullNameWithPrefix()
 		if v == "" {
 			t.Errorf("MaleFullNameWithPrefix failed with lang %s", lang)
 		}
 
-		v = FemaleFullNameWithPrefix()
+		v = f.FemaleFullNameWithPrefix()
 		if v == "" {
 			t.Errorf("FemaleFullNameWithPrefix failed with lang %s", lang)
 		}
 
-		v = FullNameWithPrefix()
+		v = f.FullNameWithPrefix()
 		if v == "" {
 			t.Errorf("FullNameWithPrefix failed with lang %s", lang)
 		}
 
-		v = MaleFullNameWithSuffix()
+		v = f.MaleFullNameWithSuffix()
 		if v == "" {
 			t.Errorf("MaleFullNameWithSuffix failed with lang %s", lang)
 		}
 
-		v = FemaleFullNameWithSuffix()
+		v = f.FemaleFullNameWithSuffix()
 		if v == "" {
 			t.Errorf("FemaleFullNameWithSuffix failed with lang %s", lang)
 		}
 
-		v = FullNameWithSuffix()
+		v = f.FullNameWithSuffix()
 		if v == "" {
 			t.Errorf("FullNameWithSuffix failed with lang %s", lang)
 		}
 
-		v = MaleFullName()
+		v = f.MaleFullName()
 		if v == "" {
 			t.Errorf("MaleFullName failed with lang %s", lang)
 		}
 
-		v = FemaleFullName()
+		v = f.FemaleFullName()
 		if v == "" {
 			t.Errorf("FemaleFullName failed with lang %s", lang)
 		}
 
-		v = FullName()
+		v = f.FullName()
 		if v == "" {
 			t.Errorf("FullName failed with lang %s", lang)
 		}
