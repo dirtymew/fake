@@ -1,10 +1,5 @@
 package fake
 
-// var lowerLetters = []rune("abcdefghijklmnopqrstuvwxyz")
-// var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-// var numeric = []rune("0123456789")
-// var specialChars = []rune(`!'@#$%^&*()_+-=[]{};:",./?`)
-// var hexDigits = []rune("0123456789abcdef")
 const (
 	lowerLetters = "abcdefghijklmnopqrstuvwxyz"
 	upperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -57,6 +52,12 @@ const (
 
 // Password generates password with the length from atLeast to atMost characters,
 // allow* parameters specify whether corresponding symbols can be used
+//
+// Example:
+//
+//	f := fake.New()
+//	password := f.Password(8, 16, true, true, true)
+//	// Generates password like "Abc123!@"
 func (f *Fake) Password(atLeast, atMost int, allowUpper, allowNumeric, allowSpecial bool) string {
 	return f.text(atLeast, atMost, true, allowUpper, allowNumeric, allowSpecial)
 }

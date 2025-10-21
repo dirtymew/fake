@@ -1,6 +1,6 @@
 ## 📝 Fake - Go Fake Data Generator
 
-This is a maintained fork of the original [`icrowley/fake`](https://github.com/icrowley/fake) with native `go:embed` support, concurrent-safe operations, and zero external dependencies.
+This is a fork of the original [`icrowley/fake`](https://github.com/icrowley/fake) with native `go:embed` support and without global variables.
 
 ### Key Improvements
 - ✨ Native Go embed (no code generation needed)
@@ -15,6 +15,19 @@ This is a maintained fork of the original [`icrowley/fake`](https://github.com/i
 go get github.com/dirtymew/fake
 ```
 
+## Quick Start
+```go
+package main
+
+import   
+
+
+func main(){
+    f := fake.New()
+    fmt.Println(f.FullName())                  // "John Doe" 
+    fmt.Println(f.EmailAddress())              // "john.doe@example.com"
+}
+```
 
 ### Requirements
 Go 1.16+
