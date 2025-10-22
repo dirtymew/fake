@@ -17,12 +17,11 @@ const (
 )
 
 type Fake struct {
-	rand             *rand.Rand
-	samplesCache     samplesTree
-	lang             string
-	enFallback       bool
-	externalDataPath string
-	fs               fs.FS
+	rand         *rand.Rand
+	samplesCache samplesTree
+	lang         string
+	enFallback   bool
+	fs           fs.FS
 }
 
 func New() *Fake {
