@@ -17,6 +17,7 @@ go get github.com/dirtymew/fake
 
 ## Quick Start
 ```go
+
 func main(){
     f := fake.New()
     fmt.Println(f.FullName())                  // "John Doe" 
