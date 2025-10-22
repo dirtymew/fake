@@ -25,7 +25,7 @@ func TestInternet(t *testing.T) {
 		{"IPv6", func(f *Fake) string { return f.IPv6() }, func(lang string) bool { return true }},
 	}
 
-	for _, lang := range GetLangs("") {
+	for _, lang := range New().GetLangs() {
 		for _, tc := range tests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()

@@ -19,7 +19,7 @@ func TestPersonal(t *testing.T) {
 		{"Language", func(f *Fake) string { return f.Language() }, func(lang string) bool { return true }},
 	}
 
-	for _, lang := range GetLangs("") {
+	for _, lang := range New().GetLangs() {
 		for _, tc := range tests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()

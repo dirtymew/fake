@@ -42,7 +42,7 @@ func TestGeo(t *testing.T) {
 		{"LongitudeDirection", func(f *Fake) string { return f.LongitudeDirection() }, func(s string) bool { return s == "W" || s == "E" }},
 	}
 
-	for _, lang := range GetLangs("") {
+	for _, lang := range New().GetLangs() {
 		for _, tc := range floatTests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()
