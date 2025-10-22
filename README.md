@@ -25,6 +25,6 @@ func main(){
 ```
 
 ### Requirements
-Go 1.16+
+Go 1.24+
 
 ---
