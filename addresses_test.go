@@ -25,7 +25,7 @@ func TestAddresses(t *testing.T) {
 		{"Phone", func(f *Fake) string { return f.Phone() }, func(lang string) bool { return true }},
 	}
 
-	for _, lang := range GetLangs("") {
+	for _, lang := range New().GetLangs() {
 		for _, tc := range tests {
 			t.Run(fmt.Sprintf("%s/%s", lang, tc.name), func(t *testing.T) {
 				t.Parallel()

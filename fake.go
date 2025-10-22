@@ -20,16 +20,15 @@ type Fake struct {
 	rand             *rand.Rand
 	samplesCache     samplesTree
 	lang             string
-	langs            []string
 	enFallback       bool
 	externalDataPath string
+	fs               fs.FS
 }
 
 func New() *Fake {
 	return &Fake{
 		rand:         rand.New(rand.NewSource(time.Now().UTC().UnixNano())),
 		samplesCache: make(samplesTree),
-		langs:        GetLangs(""),
 	}
 }
 
@@ -53,9 +52,9 @@ func (f *Fake) Seed(seed int64) {
 }
 
 // GetLangs returns a slice of available languages from the embedded data FS.
-func GetLangs(path string) []string {
+func (f *Fake) GetLangs() []string {
 	var langs []string
-	fsys := FS(path)
+	fsys := f.getFS()
 	entries, err := fs.ReadDir(fsys, ".")
 	if err != nil {
 		return langs
@@ -72,7 +71,7 @@ func GetLangs(path string) []string {
 // returns error if passed language is not available
 func (f *Fake) SetLang(newLang string) error {
 	found := false
-	for _, l := range f.langs {
+	for _, l := range f.GetLangs() {
 		if newLang == l {
 			found = true
 			break
@@ -157,14 +156,13 @@ func (f *Fake) populateSamples(lang, cat string) ([]string, error) {
 	return samples, nil
 }
 
-func (f *Fake) UseExternalData(path string) {
-	f.externalDataPath = path
-	f.langs = GetLangs(path)
+func (f *Fake) UseExternalFS(fs fs.FS) {
+	f.fs = fs
 }
 
 func (f *Fake) readFile(lang, cat string) ([]byte, error) {
 	fullpath := path.Join(lang, cat) // no leading slash
-	file, err := FS(f.externalDataPath).Open(fullpath)
+	file, err := f.getFS().Open(fullpath)
 	if err != nil {
 		return nil, ErrNoSamplesFn(lang)
 	}
