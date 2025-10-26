@@ -14,7 +14,7 @@ type creditCard struct {
 }
 
 // func (c creditCard) RandomPrefix() int {
-// 	return c.prefixes[f.randand.Intn(len(c.prefixes))]
+// 	return c.prefixes[f.randand.IntN(len(c.prefixes))]
 // }
 
 var (
@@ -45,7 +45,7 @@ func (f *Fake) CreditCardType() string {
 		vendors = append(vendors, cc.vendor)
 	}
 
-	return vendors[f.rand.Intn(n)]
+	return vendors[f.rand.IntN(n)]
 }
 
 // CreditCardNum generated credit card number according to the card number rules
@@ -53,17 +53,17 @@ func (f *Fake) CreditCardNum(vendor string) string {
 	if vendor != "" {
 		vendor = strings.ToLower(vendor)
 	} else {
-		vendor = creditCardsKeys[f.rand.Intn(len(creditCardsKeys))]
+		vendor = creditCardsKeys[f.rand.IntN(len(creditCardsKeys))]
 	}
 	card, ok := creditCards[vendor]
 	if !ok {
 		panic(fmt.Sprintf("unsupported vendor %q", vendor))
 	}
 
-	prefix := strconv.Itoa(card.prefixes[f.rand.Intn(len(card.prefixes))])
+	prefix := strconv.Itoa(card.prefixes[f.rand.IntN(len(card.prefixes))])
 	num := []rune(prefix)
 	for i := 0; i < card.length-len(prefix)-1; i++ {
-		num = append(num, rune(strconv.Itoa(f.rand.Intn(10))[0]))
+		num = append(num, rune(strconv.Itoa(f.rand.IntN(10))[0]))
 	}
 	num = append(num, creditCardNumChecksum(num))
 

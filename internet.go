@@ -9,13 +9,13 @@ import (
 // first name + last name, letter + last names or concatenation of from 1 to 3 lowercased words
 func (f *Fake) UserName() string {
 	gender := f.randGender()
-	switch f.rand.Intn(3) {
+	switch f.rand.IntN(3) {
 	case 0:
 		return f.lookup(LangEnglish, gender+"_first_names", false) + f.lookup(f.lang, gender+"_last_names", false)
 	case 1:
 		return f.Character() + f.lookup(f.lang, gender+"_last_names", false)
 	default:
-		return strings.ReplaceAll(f.WordsN(f.rand.Intn(3)+1), " ", "_")
+		return strings.ReplaceAll(f.WordsN(f.rand.IntN(3)+1), " ", "_")
 	}
 }
 
@@ -54,7 +54,7 @@ func (f *Fake) IPv4() string {
 	size := 4
 	ip := make([]byte, size)
 	for i := 0; i < size; i++ {
-		ip[i] = byte(f.rand.Intn(256))
+		ip[i] = byte(f.rand.IntN(256))
 	}
 	return net.IP(ip).To4().String()
 }
@@ -64,7 +64,7 @@ func (f *Fake) IPv6() string {
 	size := 16
 	ip := make([]byte, size)
 	for i := 0; i < size; i++ {
-		ip[i] = byte(f.rand.Intn(256))
+		ip[i] = byte(f.rand.IntN(256))
 	}
 	return net.IP(ip).To16().String()
 }

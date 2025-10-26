@@ -2,7 +2,7 @@ package fake
 
 func (f *Fake) randGender() string {
 	g := "male"
-	if f.rand.Intn(2) == 0 {
+	if f.rand.IntN(2) == 0 {
 		g = "female"
 	}
 	return g
@@ -118,7 +118,7 @@ func (f *Fake) FullNameWithSuffix() string {
 }
 
 func (f *Fake) fullName(gender string) string {
-	switch f.rand.Intn(10) {
+	switch f.rand.IntN(10) {
 	case 0:
 		return f.fullNameWithPrefix(gender)
 	case 1:
