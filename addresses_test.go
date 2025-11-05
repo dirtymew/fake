@@ -2,6 +2,8 @@ package fake
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -38,5 +40,25 @@ func TestAddresses(t *testing.T) {
 				}
 			})
 		}
+	}
+}
+
+func TestPhone_RU_Format(t *testing.T) {
+	t.Parallel()
+	f := New()
+	require.NoError(t, f.SetLang("ru"))
+
+	allowed := regexp.MustCompile(`^[\d\+\-\s\(\)]+$`)
+	nonDigits := regexp.MustCompile(`\D`)
+
+	// generate several samples to reduce flakiness
+	for i := 0; i < 50; i++ {
+		p := f.Phonef("+7-###-###-##-##")
+		assert.NotEmpty(t, p, "empty phone")
+		assert.True(t, allowed.MatchString(p), "unexpected characters in phone %q", p)
+		assert.True(t, strings.HasPrefix(p, "+7"))
+
+		digits := nonDigits.ReplaceAllString(p, "")
+		assert.Len(t, digits, 11)
 	}
 }

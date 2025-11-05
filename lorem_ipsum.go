@@ -20,7 +20,7 @@ func (f *Fake) CharactersN(n int) string {
 
 // Characters generates from 1 to 5 characters in the given language
 func (f *Fake) Characters() string {
-	return f.CharactersN(f.rand.Intn(5) + 1)
+	return f.CharactersN(f.rand.IntN(5) + 1)
 }
 
 // Word generates random word
@@ -39,20 +39,20 @@ func (f *Fake) WordsN(n int) string {
 
 // Words generates from 1 to 5 random words
 func (f *Fake) Words() string {
-	return f.WordsN(f.rand.Intn(5) + 1)
+	return f.WordsN(f.rand.IntN(5) + 1)
 }
 
 // Title generates from 2 to 5 titleized words
 func (f *Fake) Title() string {
-	return strings.ToTitle(f.WordsN(2 + f.rand.Intn(4)))
+	return strings.ToTitle(f.WordsN(2 + f.rand.IntN(4)))
 }
 
 // Sentence generates random sentence
 func (f *Fake) Sentence() string {
 	var words []string
-	for i := 0; i < 3+f.rand.Intn(12); i++ {
+	for i := 0; i < 3+f.rand.IntN(12); i++ {
 		word := f.Word()
-		if f.rand.Intn(5) == 0 {
+		if f.rand.IntN(5) == 0 {
 			word += ","
 		}
 		words = append(words, word)
@@ -60,7 +60,7 @@ func (f *Fake) Sentence() string {
 
 	sentence := strings.Join(words, " ")
 
-	if f.rand.Intn(8) == 0 {
+	if f.rand.IntN(8) == 0 {
 		sentence += "!"
 	} else {
 		sentence += "."
@@ -80,12 +80,12 @@ func (f *Fake) SentencesN(n int) string {
 
 // Sentences generates from 1 to 5 random sentences
 func (f *Fake) Sentences() string {
-	return f.SentencesN(f.rand.Intn(5) + 1)
+	return f.SentencesN(f.rand.IntN(5) + 1)
 }
 
 // Paragraph generates paragraph
 func (f *Fake) Paragraph() string {
-	return f.SentencesN(f.rand.Intn(10) + 1)
+	return f.SentencesN(f.rand.IntN(10) + 1)
 }
 
 // ParagraphsN generates n paragraphs
@@ -99,5 +99,5 @@ func (f *Fake) ParagraphsN(n int) string {
 
 // Paragraphs generates from 1 to 5 paragraphs
 func (f *Fake) Paragraphs() string {
-	return f.ParagraphsN(f.rand.Intn(5) + 1)
+	return f.ParagraphsN(f.rand.IntN(5) + 1)
 }

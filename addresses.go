@@ -15,7 +15,7 @@ func (f *Fake) Country() string {
 // City generates random city
 func (f *Fake) City() string {
 	city := f.lookup(f.lang, "cities", true)
-	switch f.rand.Intn(5) {
+	switch f.rand.IntN(5) {
 	case 0:
 		return join(f.cityPrefix(), city)
 	case 1:
@@ -51,7 +51,7 @@ func (f *Fake) Street() string {
 
 // StreetAddress generates random street name along with building number
 func (f *Fake) StreetAddress() string {
-	return join(f.Street(), strconv.Itoa(f.rand.Intn(100)))
+	return join(f.Street(), strconv.Itoa(f.rand.IntN(100)))
 }
 
 func (f *Fake) streetSuffix() string {
@@ -66,4 +66,17 @@ func (f *Fake) Zip() string {
 // Phone generates random phone number using one of the formats format specified in phone_format file
 func (f *Fake) Phone() string {
 	return f.generate(f.lang, "phones", true)
+}
+
+// Phonef generates random phone number using format like #-###-###-##-##
+func (f *Fake) Phonef(format string) string {
+	var result string
+	for _, ru := range format {
+		if ru != '#' {
+			result += string(ru)
+		} else {
+			result += strconv.Itoa(f.rand.IntN(10))
+		}
+	}
+	return result
 }

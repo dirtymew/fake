@@ -8,7 +8,7 @@ func (f *Fake) Brand() string {
 // ProductName generates product name
 func (f *Fake) ProductName() string {
 	productName := f.lookup(f.lang, "adjectives", true) + " " + f.lookup(f.lang, "nouns", true)
-	if f.rand.Intn(2) == 1 {
+	if f.rand.IntN(2) == 1 {
 		productName = f.lookup(f.lang, "adjectives", true) + " " + productName
 	}
 	return productName
@@ -22,5 +22,5 @@ func (f *Fake) Product() string {
 // Model generates model name that consists of letters and digits, optionally with a hyphen between them
 func (f *Fake) Model() string {
 	seps := []string{"", " ", "-"}
-	return f.CharactersN(f.rand.Intn(3)+1) + seps[f.rand.Intn(len(seps))] + f.Digits()
+	return f.CharactersN(f.rand.IntN(3)+1) + seps[f.rand.IntN(len(seps))] + f.Digits()
 }

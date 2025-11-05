@@ -35,10 +35,10 @@ func (f *Fake) text(atLeast, atMost int, allowLower, allowUpper, allowNumeric, a
 		return ""
 	}
 
-	nTimes := f.rand.Intn(atMost-atLeast+1) + atLeast
+	nTimes := f.rand.IntN(atMost-atLeast+1) + atLeast
 	result := make([]rune, nTimes)
 	for i := 0; i < nTimes; i++ {
-		result[i] = allowedChars[f.rand.Intn(len(allowedChars))]
+		result[i] = allowedChars[f.rand.IntN(len(allowedChars))]
 	}
 	return string(result)
 }
@@ -81,14 +81,14 @@ func (f *Fake) DigitsN(n int) string {
 
 	digits := make([]rune, n)
 	for i := 0; i < n; i++ {
-		digits[i] = []rune(numeric)[f.rand.Intn(len([]rune(numeric)))]
+		digits[i] = []rune(numeric)[f.rand.IntN(len([]rune(numeric)))]
 	}
 	return string(digits)
 }
 
 // Digits returns from 1 to 5 digits as a string
 func (f *Fake) Digits() string {
-	return f.DigitsN(f.rand.Intn(5) + 1)
+	return f.DigitsN(f.rand.IntN(5) + 1)
 }
 
 func (f *Fake) hexDigitsStr(n int) string {
@@ -98,7 +98,7 @@ func (f *Fake) hexDigitsStr(n int) string {
 
 	num := make([]rune, n)
 	for i := 0; i < n; i++ {
-		num[i] = []rune(hexDigits)[f.rand.Intn(len([]rune(hexDigits)))]
+		num[i] = []rune(hexDigits)[f.rand.IntN(len([]rune(hexDigits)))]
 	}
 	return string(num)
 }
