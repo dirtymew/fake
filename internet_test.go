@@ -3,6 +3,7 @@ package fake
 import (
 	"fmt"
 	"testing"
+	"unicode"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -39,5 +40,28 @@ func TestInternet(t *testing.T) {
 				}
 			})
 		}
+	}
+}
+
+func containsCyrillic(s string) bool {
+	for _, r := range s {
+		if unicode.Is(unicode.Cyrillic, r) {
+			return true
+		}
+	}
+	return false
+}
+
+func TestUserName_Cyrillic_Russian(t *testing.T) {
+	t.Parallel()
+	f := New()
+	require.NoError(t, f.SetLang("ru"))
+	// disable English fallback to ensure we exercise Russian data
+	f.EnFallback(false)
+
+	// generate several samples to reduce flakiness
+	for i := 0; i < 20; i++ {
+		u := f.UserName()
+		assert.False(t, containsCyrillic(u), "expected Cyrillic characters in username %q", u)
 	}
 }

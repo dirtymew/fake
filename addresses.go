@@ -67,3 +67,16 @@ func (f *Fake) Zip() string {
 func (f *Fake) Phone() string {
 	return f.generate(f.lang, "phones", true)
 }
+
+// Phonef generates random phone number using format like #-###-###-##-##
+func (f *Fake) Phonef(format string) string {
+	var result string
+	for _, ru := range format {
+		if ru != '#' {
+			result += string(ru)
+		} else {
+			result += strconv.Itoa(f.rand.IntN(10))
+		}
+	}
+	return result
+}

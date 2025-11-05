@@ -9,13 +9,18 @@ import (
 // first name + last name, letter + last names or concatenation of from 1 to 3 lowercased words
 func (f *Fake) UserName() string {
 	gender := f.randGender()
-	switch f.rand.IntN(3) {
+	w := f.rand.IntN(3)
+	switch w {
 	case 0:
-		return f.lookup(LangEnglish, gender+"_first_names", false) + f.lookup(f.lang, gender+"_last_names", false)
+		return f.lookup(LangEnglish, gender+"_first_names", false) + f.lookup(LangEnglish, gender+"_last_names", false)
 	case 1:
-		return f.Character() + f.lookup(f.lang, gender+"_last_names", false)
+		return f.lookup(LangEnglish, "characters", true) + f.lookup(LangEnglish, gender+"_last_names", false)
 	default:
-		return strings.ReplaceAll(f.WordsN(f.rand.IntN(3)+1), " ", "_")
+		words := make([]string, w+1)
+		for i := 0; i < len(words); i++ {
+			words[i] = f.lookup(f.lang, "words", true)
+		}
+		return strings.Join(words, "_")
 	}
 }
 
